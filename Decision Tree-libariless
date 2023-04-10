@@ -1,0 +1,125 @@
+# Create a Decsision treelibrariless framework
+
+
+
+class Math:
+    
+    def square(self,num):
+        return num**2
+    
+    def sqrt(self,num):
+        return num**(1/2)
+    
+    def log_base_2(self, x):
+        import math
+        return math.log2(x)
+
+m = Math()
+
+
+
+#Ask for input data set
+#input_dict = {list as value of every key}
+X_input_data = {"RID":[1,2,3,4,5,6,7,8,9,10,11,12,13,14], 
+              "age":["youth","youth","middle_aged","senior","senior","senior","middle_aged","youth","youth","senior","youth","middle_aged","middle_aged","senior"],
+             "income":["high","high","high","medium", "low","low","low", "medium","low", "medium","medium","medium","high","medium"],          
+            "student":["no","no","no","no","yes","yes","yes","no","yes","yes","yes","no","yes","no"],
+            "credit_rating":["fair","excellent","fair","fair","fair","excellent","excellent","fair","fair","fair","excellent","excellent","fair","excellent"],
+            "target":["no","no","yes","yes","yes","no","yes","no","yes","yes","yes","yes","yes","no"]
+            }
+
+
+print(X_input_data["RID"][13], X_input_data["age"][13], X_input_data["income"][13],  X_input_data["student"][13], X_input_data["credit_rating"][13], X_input_data["target"][13])
+
+print(X_input_data)
+
+#target positive and negative and their index numbers
+
+target_list = X_input_data['target']
+positive_targets_indices = [t for t in range(len(target_list))  if target_list[t] == "yes"]
+print(positive_targets_indices)
+
+P = target_list.count("yes")
+print(P)
+
+negative_targets_indices = [t for t in range(len(target_list))  if target_list[t] == "no"]
+print(negative_targets_indices)
+
+N = target_list.count("no")
+
+T = P + N
+print(T)
+                                     
+ 
+ 
+attributes =  set(X_input_data.keys())
+
+def attributes_for_decision(attributes):
+    key_attributes_list = []
+    total_key_attr = 0
+    for key_attr in attributes:
+        if key_attr != 'RID' and key_attr != 'target':
+            key_attributes_list.append(key_attr)
+            total_key_attr += 1
+    print(total_key_attr)
+    return key_attributes_list
+
+
+for a in attributes_for_decision(attributes):
+    print(X_input_data[a])
+    #calculate entropy of the dataset
+
+def calculate_entropy(P,N,T):
+    entropy_dataset = -(P/T)*m.log_base_2(P/T) - (N/T)*m.log_base_2(N/T)
+    return round(entropy_dataset,4)
+
+# entropy_dataset = calculate_entropy(P,N,T)
+
+#entropy of each attribute-value
+
+for a in attributes_for_decision(attributes):
+    print(a)
+    
+    
+    
+    
+   list_of_attrs = []
+for a in attributes_for_decision(attributes):
+    variable_attr = f'all_variables_of_attr_{a}'
+    locals()[variable_attr] = list(X_input_data[a])
+    list_of_attrs.append(variable_attr)
+
+print(list_of_attrs)    
+# print(all_variables_of_attr_list)
+# print(positive_targets_indices)
+
+# var_attr_list = list(set(all_variables_of_attr_list))
+for var in list_of_attrs:
+    var_set = f'var_set_{var}'
+    
+    locals()[var_set] = list(set(var))
+    print(f"{var_set}") 
+
+all_variables_of_attr_income   
+
+
+def negatives_of_all_var_attr_list(var_attr_list, all_variables_of_attr_list,negative_targets_indices):
+    for v in var_attr_list:
+        count = 0
+        variable_name = f"negatives_of_{v}"
+        indices = [i for i, x in enumerate(all_variables_of_attr_list) if x == v]
+        print(indices)
+        for i_index in indices:
+            if i_index in negative_targets_indices:
+                count +=1
+            locals()[variable_name] = count       
+        print(f"{variable_name} = {count}")
+        globals()[variable_name] = count  
+
+negatives_of_all_var_attr_list(var_attr_list, all_variables_of_attr_list,negative_targets_indices)
+
+print(negatives_of_middle_aged)
+print(negatives_of_senior)
+print(negatives_of_youth)
+
+
